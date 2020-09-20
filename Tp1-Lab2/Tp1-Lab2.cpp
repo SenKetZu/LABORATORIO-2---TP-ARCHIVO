@@ -1,12 +1,22 @@
-#include "func.h"
+#include "structs.h"
+#include "dibujadoPantalla.h"
+#include "entradaDatos.h"
+#include "funcionesArchivos.h"
+#include "Entrenamientos.h"
 
-bool menuEntrenamiento();
+
+/*
 bool menuReportes();
 bool menuConfiguraciones();
+
+*/
+
 
 
 
 /*
+	
+	
 setColor(WHITE);
 	cout << "\t\t\t******************" << endl;
 	cout << "\t\t\t* MENU PRINCIPAL *" << endl;
@@ -21,12 +31,61 @@ setColor(WHITE);
 
 
 
+void ajustes() {
+	
+	//system("mode con: cols=66 lines=30");
+	system("color 08");
+	setlocale(LC_ALL, "spanish");
+}
 
 
 
 
+void menuEntrenamiento() {
+	int control;
+	do {
 
+		cls();
+		dibujarMenuEntrenamientos();
+		
+		control = numeroPulsado();
 
+		switch (control) {
+
+			case 1: {
+				agregarEntrenamiento();
+				break;
+			}
+			case 2: {
+				modificarEntrenamiento();
+				break;
+			}
+			case 3: {
+				listarEntrenamientoID(pedirIDEntre());
+				break;
+			}
+			case 4: {
+				listarEntrUsID(pedirID());
+				break;
+			}
+			case 5: {
+				listarEntr();
+				break;
+			}
+			default: {
+
+				setColor(RED);
+				if (control > 5) { cout << endl << "Elija una opcion valida"; msleep(1000); }
+				setColor(GREY);
+
+				break;
+			}
+		}
+
+		
+
+	} while (control != 0);
+}
 
 
 void menuUsuario() {
@@ -34,8 +93,10 @@ void menuUsuario() {
 	
 	int control;
 	do {
+		
 		cls();
 		dibujarMenuUsuario();
+		cleanGetch();
 		control = numeroPulsado();
 
 		switch (control) {
@@ -51,16 +112,24 @@ void menuUsuario() {
 			}
 
 			case 3: {
-				listarUsID();
+				listarUsID(pedirID());
 				break;
 			}
 
+			case 4: {
+				listarUsTodos();
+				break;
+			}
 
+			case 5: {
+				bajaUsuario();
+				break;
+			}
 			default:break;
 		}
 
 		setColor(RED);
-		if (control > 5) { cout << "Elija una opcion valida"; msleep(1000);}
+		if (control > 5) { cout <<endl<< "Elija una opcion valida"; msleep(1000);}
 		
 		setColor(GREY);
 
@@ -72,6 +141,8 @@ void menuUsuario() {
 }
 
 void Menu() {
+	cleanGetch();
+	ajustes();
 	int control;
 
 	do {
@@ -87,6 +158,9 @@ void Menu() {
 				break;
 			}
 
+			case 2: {
+				menuEntrenamiento();
+			}
 
 
 
@@ -94,7 +168,7 @@ void Menu() {
 		}
 
 		setColor(RED);
-		if (control > 5 && control != 0) { cout << "Elija una opcion valida"; msleep(1000);}
+		if (control > 5) { cout<<endl<< "Elija una opcion valida"; msleep(1000);}
 		setColor(GREY);
 
 	}while (control!=0);
@@ -104,8 +178,7 @@ void Menu() {
 
 int main(){
 
-	system("mode con: cols=66 lines=30");
-	system("color 08");
+	
 	hidecursor();
 	//showcursor();
 
@@ -114,10 +187,11 @@ int main(){
 
 
 	Menu();
-	
-	
+	//cout << getch();
+	//cout << numerosBien();
+
 
 	
-	anykey();
+
 	return 0;
 }

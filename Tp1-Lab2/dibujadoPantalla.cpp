@@ -1,6 +1,5 @@
-#include "func.h"
-
-
+#include "dibujadoPantalla.h"
+#include "funcionesArchivos.h"
 
 void dibujarMenu() {
 	setColor(WHITE);
@@ -10,7 +9,7 @@ void dibujarMenu() {
 	setColor(GREY);
 
 
-	cout << "--------------" << endl;
+	lineaVerde();
 	setColor(WHITE);
 	cout << "1) USUARIOS " << endl;
 	setColor(GREY);
@@ -19,7 +18,7 @@ void dibujarMenu() {
 	cout << "3) REPORTES " << endl;
 	setColor(GREY);
 	cout << "4) CONFIGURACION " << endl;
-	cout << "----------------------" << endl;
+	lineaVerde();
 	setColor(WHITE);
 	cout << "0) SALIR DEL PROGRAMA" << endl;
 	setColor(GREY);
@@ -34,7 +33,7 @@ void dibujarMenuUsuario() {
 	setColor(GREY);
 
 
-	cout << "--------------" << endl;
+	lineaVerde();
 	setColor(WHITE);
 	cout << "1) NUEVO USUSARIO " << endl;
 	setColor(GREY);
@@ -46,7 +45,7 @@ void dibujarMenuUsuario() {
 	setColor(WHITE);
 	cout << "5) ELIMINAR USUARIO " << endl;
 	setColor(GREY);
-	cout << "----------------------" << endl;
+	lineaVerde();
 
 	setColor(WHITE);
 	cout << "0) VOLVER " << endl;
@@ -56,24 +55,49 @@ void dibujarMenuUsuario() {
 
 }
 
-void mensajeCorrecto(string mensaje) {
-
+void mensajeEspera(int distanciaVer, int delayMs, bool anim) {
+	if (anim) {
+		while (!kbhit()) {
+			locate(1, distanciaVer);
+			cout << "Presione cualquier tecla para volver    ";
+			msleep(delayMs);
+			locate(1, distanciaVer);
+			cout << "Presione cualquier tecla para volver.";
+			msleep(delayMs);
+			locate(1, distanciaVer);
+			cout << "Presione cualquier tecla para volver..";
+			msleep(delayMs);
+			locate(1, distanciaVer);
+			cout << "Presione cualquier tecla para volver...";
+			msleep(delayMs);
+		}
+	}
+	else {
+		locate(1, distanciaVer);
+		cout << "Presione cualquier tecla para volver";
+		anykey();
+	}
+	locate(1, 1);
 }
 
-void mensajeError(string mensaje) {
-
-}
-
-
-void printUsuario(usuarios Us) {
-	cls();
-
-	setColor(WHITE);
-	cout << "\t\t\t******************" << endl;
-	cout << "\t\t\t*      DATOS     *" << endl;
-	cout << "\t\t\t******************" << endl << endl;
+void lineaVerde() {
+	setColor(GREEN);
+	cout << "-----------------------------------" << endl;
 	setColor(GREY);
-	
+}
+
+//esta es para mostrar un usuario por pantalla
+void printRegistro(usuarios Us, bool simple) {
+	if (simple) {
+		cls();
+
+		setColor(LIGHTBLUE);
+		cout << "\t\t\t******************" << endl;
+		cout << "\t\t\t*      DATOS     *" << endl;
+		cout << "\t\t\t******************" << endl << endl;
+		setColor(GREY);
+		
+	}
 	cout << "identificador: ";
 	setColor(LIGHTBLUE);
 	cout << Us.identificador << endl;
@@ -107,9 +131,7 @@ void printUsuario(usuarios Us) {
 	setColor(LIGHTBLUE);
 	cout << Us.peso << endl;
 	setColor(GREY);
-
-
-
+	//---------------------------------------------------------
 	if (Us.aptMed) {
 		cout << "apta medica: ";
 		setColor(LIGHTBLUE);
@@ -122,7 +144,6 @@ void printUsuario(usuarios Us) {
 		cout << "baja" << endl;
 		setColor(GREY);
 	}
-
 	if (Us.estado) {
 		cout << "estado: ";
 		setColor(LIGHTBLUE);
@@ -135,6 +156,80 @@ void printUsuario(usuarios Us) {
 		cout << "dado de baja" << endl;
 		setColor(GREY);
 	}
+	lineaVerde();
+}
+
+//esta es para mostrar un entrenamiento por pantalla
+void printRegistro(entrenamiento En, bool simple) {
+	if (simple) {
+		cls();
+
+		setColor(LIGHTBLUE);
+		cout << "\t\t\t******************" << endl;
+		cout << "\t\t\t*      DATOS     *" << endl;
+		cout << "\t\t\t******************" << endl << endl;
+		setColor(GREY);
+
+	}
+	cout << "Identificador Entr: ";
+	setColor(LIGHTBLUE);
+	cout << En.IDentr << endl;
+	setColor(GREY);
+
+	cout << "Identificador Usr: ";
+	setColor(LIGHTBLUE);
+	cout << En.IDuser << endl;
+	setColor(GREY);
+
+	cout << "Fecha Entrenamiento: ";
+	setColor(LIGHTBLUE);
+	cout << En.fechaEntrenamiento.dia << "/" << En.fechaEntrenamiento.dia << "/" << En.fechaEntrenamiento.dia << endl;
+	setColor(GREY);
+
+	cout << "Actividad: ";
+	setColor(LIGHTBLUE);
+	cout << En.activ << endl;
+	setColor(GREY);
+
+	cout << "calorias: ";
+	setColor(LIGHTBLUE);
+	cout << En.cal << endl;
+	setColor(GREY);
+
+	cout << "Duracion: ";
+	setColor(LIGHTBLUE);
+	cout << En.tiempo << endl;
+	setColor(GREY);
 	
+	lineaVerde();
+}
+
+void listarUsTodos() {
+	cls();
+	setColor(LIGHTBLUE);
+	cout << "\t\t\t******************" << endl;
+	cout << "\t\t\t* LISTA USUARIOS *" << endl;
+	cout << "\t\t\t******************" << endl << endl;
+	setColor(GREY);
+
+	usuarios aux;
+	bool seguro = true;
+	FILE* P;
+	P = fopen("Usuarios.fah", "rb+");
+	if (P == NULL) { cout << "NO HAY REGISTROS"; seguro = false; }
+	
+
+
+	for (int i = 0; i < cantReg(true);++i) {
+
+		fread(&aux, sizeof(usuarios), 1, P);
+		printRegistro(aux, false);
+	}
+
+
+	cout <<endl<< "Presione cualquier tecla para continuar...";
 	anykey();
 }
+
+
+

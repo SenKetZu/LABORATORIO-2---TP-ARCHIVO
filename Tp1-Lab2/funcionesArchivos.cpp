@@ -1,8 +1,11 @@
-#include "func.h"
+#include "entradaDatos.h"
+#include "funcionesArchivos.h"
+
+
 
 
 //CUIDADO: LA POSICION 0 ES EL PRIMER REGISTRO, LA POSICION 1 ES EL SEGUNDO!!!--- POSICION 1 NO ES EL PRIMER REGISTRO.
-bool archivarUsuario(usuarios nuevoUs, int posEscribir) {
+bool Archivar(usuarios nuevoUs, int posEscribir) {
 
 	FILE* P;
 	P = fopen("Usuarios.fah", "rb+");
@@ -15,13 +18,19 @@ bool archivarUsuario(usuarios nuevoUs, int posEscribir) {
 
 	if (fwrite(&nuevoUs, sizeof(usuarios), 1, P)) {
 
-		cout << "TODO CORRECTO TROESMA";
+		setColor(GREEN);
+		cout << "CORRECTO";
+		setColor(GREY);
 		fclose(P);
+		msleep(2000);
 		return true;
 	}
 	else {
-		cout << "QUE PICARDIA";
+		setColor(RED);
+		cout << "ERROR";
+		setColor(GREY);
 		fclose(P);
+		msleep(2000);
 		return false;
 	}
 
@@ -29,7 +38,7 @@ bool archivarUsuario(usuarios nuevoUs, int posEscribir) {
 
 
 //recive un struct de tipo usuario y lo carga en el archivo.
-bool archivarUsuario(usuarios nuevoUs) {
+bool Archivar(usuarios nuevoUs) {
 
 	FILE* P;
 	P = fopen("Usuarios.fah", "ab");
@@ -39,50 +48,54 @@ bool archivarUsuario(usuarios nuevoUs) {
 	//int verf=
 	if (fwrite(&nuevoUs, sizeof(usuarios), 1, P)) {
 
-		cout << "TODO CORRECTO TROESMA";
+		setColor(GREEN);
+		cout << "CORRECTO";
+		setColor(GREY);
 		fclose(P);
+		msleep(2000);
 		return true;
 	}
 	else {
-		cout << "QUE PICARDIA";
+		setColor(RED);
+		cout << "ERROR";
+		setColor(GREY);
 		fclose(P);
+		msleep(2000);
 		return false;
 	}
 
 }
 
 
-//revisa el ultimo ususario y te genera la siguiente ID, si no habia ususario te genera la primer ID
-int generadorID() {
 
-	usuarios ultimo;
 
-	FILE* P;
-	P = fopen("Usuarios.fah", "ab+");
-	if (P == NULL) { cout << "ERROR SOS PERUANO"; return 0; }
-	int i = fseek(P,int(sizeof(usuarios))*-1, 2);
-	if (i) {
+
+//si recive true devuelve la cantidad de ususarios, si envias false devuelve la cantidad de entrenamientos
+int cantReg(bool esUsuarios) {
+	int tamaño;
+
+	if (esUsuarios) {
+		FILE* P = fopen("Usuarios.fah", "ab");
+		tamaño=ftell(P);
+		tamaño = tamaño / int(sizeof(usuarios));
 		fclose(P);
-		return 1111;
-
 	}
 	else {
-		int verif = fread(&ultimo, sizeof(usuarios), 1, P);
-
-		int id = ultimo.identificador;
-		id++;
+		FILE* P = fopen("Entrenamientos.fah", "ab");
+		tamaño = ftell(P);
+		tamaño = tamaño / int(sizeof(entrenamiento));
 		fclose(P);
-		return id;
-
 	}
 
+	
+	return tamaño;
 }
 
 //devuelve el usuario que corresponde al id;
 usuarios BuscarUsuarioID(int ID) {
 
 	usuarios elegido;
-	usuarios def;
+
 	int posicion = ID - 1111;
 
 
@@ -90,17 +103,27 @@ usuarios BuscarUsuarioID(int ID) {
 	P = fopen("Usuarios.fah", "rb+");
 	if (P == NULL) { cout << "ERROR SOS PERUANO"; }//mensajeError();
 
-
 	for (int i = 0; i <= posicion; ++i) {
 
 		fread(&elegido, sizeof(usuarios), 1, P);
 
 	}
-
+	
 	if (elegido.identificador != ID) {
 		elegido.identificador = 0;		
 
 	}
-
+	fclose(P);
 	return elegido;
+}
+
+
+void bajaUsuario() {
+	
+	int ID = pedirID();
+	usuarios darBaja = BuscarUsuarioID(ID);
+	darBaja.estado = false;
+	Archivar(darBaja, ID - 1111);
+
+
 }
