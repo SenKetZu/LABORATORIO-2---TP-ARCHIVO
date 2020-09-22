@@ -13,6 +13,7 @@ void agregarUsusario();
 int numeroPulsado();
 void modificarUsuario();
 void listarUsID(int ID);
+void listarEntre2020UsID();
 bool biciesto(int año);
 int pedirID();
 void cleanGetch();

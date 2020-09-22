@@ -377,7 +377,63 @@ void cleanGetch() {
 	}
 }
 
+//---------------------------------------------
 
+int cantidadEntre2020(int ID) {
+	entrenamiento aux;
+	int cant = 0;
+	FILE* P = fopen("Entrenamientos.dat","rb");
+	if (!P) {
+		cout<<"error";
+		return 0;
+	}
+
+	while (fread(&aux,sizeof entrenamiento,1,P)) {
+		if (aux.IDuser==ID&&aux.fechaEntrenamiento.año==2020) {
+			cant++;
+		}
+	}
+	fclose(P);
+	return cant;
+}
+
+void listarEntre2020UsID() {
+
+	int ID = pedirID();
+	
+		cls();
+
+		setColor(LIGHTBLUE);
+		cout << "\t\t\t******************" << endl;
+		cout << "\t\t\t*  "<<ID<<"  *" << endl;
+		cout << "\t\t\t******************" << endl << endl;
+		setColor(GREY);
+
+	usuarios elegido=BuscarUsuarioID(ID);
+	
+	lineaVerde();
+
+	cout << "apellido: ";
+	setColor(LIGHTBLUE);
+	cout << elegido.apellido << endl;
+	setColor(GREY);
+
+	cout << "nombre: ";
+	setColor(LIGHTBLUE);
+	cout << elegido.nombre << endl;
+	setColor(GREY);
+
+	cout << "cantidad de entrenamientos en 2020: ";
+	setColor(LIGHTBLUE);
+	cout << cantidadEntre2020(ID) << endl;
+	setColor(GREY);
+
+	lineaVerde();
+
+	cout << "presione cualquier tecla para volver";
+	anykey();
+
+}
 
 
 

@@ -236,6 +236,7 @@ void dibujarMenuEntrenamientos() {
 	setColor(WHITE);
 	cout << "5) LISTAR TODOS LOS ENTRENAMIENTOS " << endl;
 	setColor(GREY);
+	cout << "6) LISTAR ENTRENAMIENTOS MAYORES AL PROMEDIO " << endl;
 	lineaVerde();
 
 	setColor(WHITE);
@@ -379,6 +380,47 @@ void listarEntr() {
 	}
 
 	cout << endl << "presione cualquier tecla para continuar";
+	anykey();
+
+}
+
+//--------------------------
+
+
+void listarEntrMayorProm() {
+	vector<entrenamiento> listaEntre;
+	entrenamiento aux;
+	FILE* P = fopen("Entrenamientos.dat", "rb");
+	
+	
+	while (fread(&aux,sizeof entrenamiento,1,P)) {
+		listaEntre.push_back(aux);
+	}
+
+	int prom = 0;
+
+	for (int i = 0; i < listaEntre.size();++i) {
+		prom += listaEntre[i].tiempo;
+	}
+	prom /= listaEntre.size();
+
+	cls();
+	setColor(LIGHTBLUE);
+	cout << "\t\t\t******************" << endl;
+	cout << "\t\t\t*PROMEDIO: "<<prom << "  *" << endl;
+	cout << "\t\t\t******************" << endl << endl;
+	setColor(GREY);
+
+
+	for (int i = 0; i < listaEntre.size(); ++i) {
+		if (listaEntre[i].tiempo>prom) {
+			printRegistro(listaEntre[i],false);
+		}
+		
+
+	}
+	fclose(P);
+	cout << "presiones cualquier tecla para volver";
 	anykey();
 
 }

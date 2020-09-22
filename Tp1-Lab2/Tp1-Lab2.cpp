@@ -21,7 +21,7 @@ void menuConfiguraciones() {
 		control = numeroPulsado();
 
 		switch (control) {
-
+		case 0: break;
 		case 1: {
 			realizarBackUp();
 			break;
@@ -43,19 +43,6 @@ void menuConfiguraciones() {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void menuEntrenamiento() {
 	int control;
 	do {
@@ -66,7 +53,7 @@ void menuEntrenamiento() {
 		control = numeroPulsado();
 
 		switch (control) {
-
+			case 0:break;
 			case 1: {
 				agregarEntrenamiento();
 				break;
@@ -87,6 +74,10 @@ void menuEntrenamiento() {
 				listarEntr();
 				break;
 			}
+			case 6: {
+				listarEntrMayorProm();
+				break;
+			}
 			default: {
 
 				setColor(RED);
@@ -102,7 +93,6 @@ void menuEntrenamiento() {
 	} while (control != 0);
 }
 
-
 void menuUsuario() {
 	
 	
@@ -115,7 +105,7 @@ void menuUsuario() {
 		control = numeroPulsado();
 
 		switch (control) {
-
+			case 0:break;
 			case 1: {
 				agregarUsusario();
 				break;
@@ -140,13 +130,22 @@ void menuUsuario() {
 				bajaUsuario();
 				break;
 			}
-			default:break;
+			case 6: {
+				listarEntre2020UsID();
+				break;
+			}
+			default: {
+				setColor(RED);
+				cout << endl << "Elija una opcion valida";
+				setColor(GREY);
+				msleep(1000);
+				break;
+			}
 		}
 
-		setColor(RED);
-		if (control > 5) { cout <<endl<< "Elija una opcion valida"; msleep(1000);}
+	
 		
-		setColor(GREY);
+		
 
 	} while (control!=0);
 
@@ -167,12 +166,11 @@ void Menu() {
 
 
 		switch (control) {
+			case 0:break;
 			case 1: {
 				menuUsuario();
-
 				break;
 			}
-
 			case 2: {
 				menuEntrenamiento();
 				break;
@@ -184,34 +182,29 @@ void Menu() {
 				menuConfiguraciones();
 				break;
 			}
-
-
-
-			default:break;
+			default: {
+				setColor(RED);
+				cout << endl << "Elija una opcion valida";
+				msleep(1000);
+				setColor(GREY);
+				break;
+			}
 		}
-
-		setColor(RED);
-		if (control > 5) { cout<<endl<< "Elija una opcion valida"; msleep(1000);}
-		setColor(GREY);
-
-	}while (control!=0);
-
-	
+	}while (control!=0);	
 }
 
 int main(){
 
 	
 	hidecursor();
-	//showcursor();
+
 
 
 	
 
 
 	Menu();
-	//cout << getch();
-	//cout << numerosBien();
+
 
 
 	

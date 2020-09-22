@@ -4,7 +4,7 @@
 #include "rlutil.h"
 #include <time.h>
 #include <locale.h>
-
+#include <vector>
 
 
 using namespace std;

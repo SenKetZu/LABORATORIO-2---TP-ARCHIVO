@@ -4,6 +4,7 @@
 bool Archivar(entrenamiento nuevoEn);
 bool Archivar(entrenamiento nuevoEn, int posEscribir);
 void agregarEntrenamiento();
+void listarEntrMayorProm();
 int generadorEntrID();
 void dibujarMenuEntrenamientos();
 entrenamiento BuscarEntrenamientoID(int ID);

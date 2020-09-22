@@ -79,6 +79,7 @@ void dibujarMenuUsuario() {
 	setColor(WHITE);
 	cout << "5) ELIMINAR USUARIO " << endl;
 	setColor(GREY);
+	cout << "6) LISTAR CANTIDAD DE ENTRENAMIENTOS 2020 " << endl;
 	lineaVerde();
 
 	setColor(WHITE);
