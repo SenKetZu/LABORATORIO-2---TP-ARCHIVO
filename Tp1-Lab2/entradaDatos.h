@@ -18,3 +18,4 @@ int pedirID();
 void cleanGetch();
 float numerosBien();
 char teclaPulsada();
+int verifIDnousado();

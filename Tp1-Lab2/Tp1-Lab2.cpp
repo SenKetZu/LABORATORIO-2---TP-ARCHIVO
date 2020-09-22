@@ -7,36 +7,51 @@
 
 /*
 bool menuReportes();
-bool menuConfiguraciones();
-
-*/
-
-
-
-
-/*
-	
-	
-setColor(WHITE);
-	cout << "\t\t\t******************" << endl;
-	cout << "\t\t\t* MENU PRINCIPAL *" << endl;
-	cout << "\t\t\t******************" << endl << endl;
-	setColor(GREY);
 
 
 */
 
+void menuConfiguraciones() {
+	int control;
+	do {
 
+		cls();
+		dibujarMenuConfiguraciones();
 
+		control = numeroPulsado();
 
+		switch (control) {
 
+		case 1: {
+			realizarBackUp();
+			break;
+		}
 
-void ajustes() {
-	
-	//system("mode con: cols=66 lines=30");
-	system("color 08");
-	setlocale(LC_ALL, "spanish");
+		case 2: {
+			cargarBackUp();
+			break;
+		}
+		default:break;
+		}
+
+		setColor(RED);
+		if (control > 5) { cout << endl << "Elija una opcion valida"; msleep(1000); }
+
+		setColor(GREY);
+
+	} while (control != 0);
+
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -160,6 +175,14 @@ void Menu() {
 
 			case 2: {
 				menuEntrenamiento();
+				break;
+			}
+			case 3: {
+				break;
+			}
+			case 4: {
+				menuConfiguraciones();
+				break;
 			}
 
 

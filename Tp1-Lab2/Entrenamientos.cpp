@@ -96,9 +96,10 @@ void agregarEntrenamiento() {
 		cin >> nuevo.cal;
 		setColor(GREY);
 
-		cout << endl << "Duracion de la actividad: ";
+		cout << endl << "Duracion de la actividad(minutos): ";
 		setColor(LIGHTBLUE);
 		cin >> nuevo.tiempo;
+		cin.ignore();
 		setColor(GREY);
 	}
 
@@ -249,12 +250,12 @@ entrenamiento BuscarEntrenamientoID(int ID) {
 
 
 	FILE* P;
-	P = fopen("Entrenamientos.dat", "rb+");
+	P = fopen("Entrenamientos.dat", "ab+");
 	if (P == NULL) { cout << "ERROR"; }
 
 	for (int i = 0; i <= posicion; ++i) {
 
-		fread(&elegido, sizeof(usuarios), 1, P);
+		fread(&elegido, sizeof(entrenamiento), 1, P);
 
 	}
 
@@ -338,17 +339,26 @@ void listarEntrUsID(int ID) {
 	cout << "\t\t\t* LISTA ENTRENAMIENTOS *" << endl;
 	cout << "\t\t\t************************" << endl << endl;
 	setColor(GREY);
+	usuarios elegido = BuscarUsuarioID(ID);
+	if (elegido.estado) {
+		for (int i = 0; i < cantEntrenamientos(); ++i) {
 
-	for (int i = 0; i < cantEntrenamientos(); ++i) {
+			entrenamiento aux = BuscarEntrenamientoID(1 + i);
 
-		entrenamiento aux = BuscarEntrenamientoID(1 + i);
-
-		if (aux.IDuser == ID) {
-			printRegistro(aux, false);
+			if (aux.IDuser == ID) {
+				printRegistro(aux, false);
+			}
 		}
 	}
-
-	mensajeEspera(13,600,true);
+	else { 
+		setColor(RED);
+		cout<<"no se encontro el usuario o no esta habilitado"<<endl;
+		setColor(GREY);
+	}
+	
+	cout << "Presione cualquier tecla para continuar";
+	anykey();
+	
 }
 
 void listarEntr() {
@@ -368,7 +378,7 @@ void listarEntr() {
 
 	}
 
-	cout << endl << "presiones cualquier tecla para continuar";
+	cout << endl << "presione cualquier tecla para continuar";
 	anykey();
 
 }

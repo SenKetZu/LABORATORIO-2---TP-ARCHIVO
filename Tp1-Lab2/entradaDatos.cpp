@@ -77,9 +77,7 @@ fecha ingresarFecha(bool nac) {
 	nacimiento.año= numerosBien();
 
 	
-	setColor(GREEN);
-	cout << "----------------------" << endl;
-	setColor(GREY);
+	lineaVerde();
 	return nacimiento;
 
 }
@@ -95,14 +93,22 @@ fecha fechaValidada(bool nacimiento) {
 		fechaCorrecta = true;
 		ingresada = ingresarFecha(nacimiento);
 
-		int edad =  abs(ingresada.año - (fechaActual().tm_year + 1900));
+		int edad = (fechaActual().tm_year + 1900)- ingresada.año;
 		
-		if (edad < 13&&nacimiento) {
+		if (edad < 13&&nacimiento||edad<0) {
 			fechaCorrecta = false;
 		}
 		//verifica que la fecha ingresada no sea mayor a la actual
-		if (ingresada.año == fechaActual().tm_year + 1900&&(ingresada.mes>fechaActual().tm_mon+1|| ingresada.dia > fechaActual().tm_mday)) {
-			fechaCorrecta = false;
+		
+		if (ingresada.año == fechaActual().tm_year + 1900){
+			if (ingresada.mes > fechaActual().tm_mon + 1) {
+				fechaCorrecta = false;
+			}
+			else if (ingresada.mes == fechaActual().tm_mon + 1&& ingresada.dia > fechaActual().tm_mday) {
+
+				fechaCorrecta = false;
+
+			}
 		}
 		//poco probable que alguien de mas de 120 años se inscriba al programa
 		if ( ingresada.año<1900) {
@@ -156,19 +162,42 @@ bool biciesto(int año) {
 		return false;
 	}
 }
+//verifica que el Id no este usado ya
+int verifIDnousado(){
+
+	int ID;
+	bool unico = false;
+
+	do {
+		ID = numerosBien();
+		if (BuscarUsuarioID(ID).identificador==-1) {
+			unico = true;
+		}
+		else{
+			setColor(RED);
+			cout<<"el ID ya existe, por favor elija otro: ";
+			setColor(LIGHTBLUE);
+		}
 
 
+
+	}while (!unico);
+
+
+
+	return ID;
+}
 //llenado de struct con los datos de un usuario, debe ser mandado a la funcion archivarUsuario() para cargarlo en un archivo.
 void agregarUsusario() {
 	usuarios nuevo;
 	
 
-	//cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	
 	
 	setColor(GREY);
 	cout << endl << "ID: ";
 	setColor(LIGHTBLUE);
-	nuevo.identificador = numerosBien();
+	nuevo.identificador = verifIDnousado();
 	setColor(GREY);	
 
 	cout << "Nombre: ";
@@ -271,6 +300,7 @@ void modificarUsuario() {
 		cin >> elegido.aptMed;
 		setColor(GREY);
 		cin.ignore();
+		
 
 		Archivar(elegido, ID - 1111);
 

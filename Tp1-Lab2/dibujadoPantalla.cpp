@@ -1,5 +1,39 @@
 #include "dibujadoPantalla.h"
 #include "funcionesArchivos.h"
+void ajustes() {
+	srand(time(NULL));
+	//system("mode con: cols=66 lines=30");
+	system("color 08");
+	setlocale(LC_ALL, "spanish");
+}
+
+bool confirmacionBKP() {
+	int codigo = rand() % 9999 + 1111;
+	int entrada;
+	cls();
+	setColor(RED);
+	cout << "\t\t\t********************" << endl;
+	cout << "\t\t\t*CONFIRMACION:"<<codigo<<"*" << endl;
+	cout << "\t\t\t********************" << endl << endl;
+	setColor(GREY);
+
+
+	lineaVerde();
+	cout << "ingrese el codigo de confirmacion:";
+	setColor(RED);
+	cin >> entrada;
+	setColor(GREY);
+
+	if (entrada == codigo) {
+		return true;
+	}
+	else {
+		return false;
+	}
+
+	
+	
+}
 
 void dibujarMenu() {
 	setColor(WHITE);
@@ -50,9 +84,27 @@ void dibujarMenuUsuario() {
 	setColor(WHITE);
 	cout << "0) VOLVER " << endl;
 	setColor(GREY);
+}
 
+void dibujarMenuConfiguraciones() {
 
+	setColor(WHITE);
+	cout << "\t\t\t*******************" << endl;
+	cout << "\t\t\t*   MENU CONFIG   *" << endl;
+	cout << "\t\t\t*******************" << endl << endl;
+	setColor(GREY);
 
+	lineaVerde();
+	setColor(WHITE);
+	cout << "1) REALIZAR COPIA DE SEGURIDAD " << endl;
+	setColor(GREY);
+	cout << "2) RESTAURAR COPIA DE SEGURIDAD " << endl;
+
+	lineaVerde();
+
+	setColor(WHITE);
+	cout << "0) VOLVER " << endl;
+	setColor(GREY);
 }
 
 void mensajeEspera(int distanciaVer, int delayMs, bool anim) {
@@ -102,35 +154,37 @@ void printRegistro(usuarios Us, bool simple) {
 	setColor(LIGHTBLUE);
 	cout << Us.identificador << endl;
 	setColor(GREY);
+
 	cout << "fecha nacimiento: ";
 	setColor(LIGHTBLUE);
 	cout << Us.nacimiento.dia << "/" << Us.nacimiento.mes << "/" << Us.nacimiento.año << endl;
+	setColor(GREY);
 
-	setColor(GREY);
-	cout << "identificador: ";
-	setColor(LIGHTBLUE);
-	cout << Us.identificador << endl;
-	setColor(GREY);
 	cout << "nombre: ";
 	setColor(LIGHTBLUE);
 	cout << Us.nombre << endl;
 	setColor(GREY);
+
 	cout << "apellido: ";
 	setColor(LIGHTBLUE);
 	cout << Us.apellido << endl;
 	setColor(GREY);
+
 	cout << "perfil de actividad: ";
 	setColor(LIGHTBLUE);
 	cout << Us.perfilAct << endl;
 	setColor(GREY);
+
 	cout << "altura: ";
 	setColor(LIGHTBLUE);
 	cout << Us.altura << endl;
 	setColor(GREY);
+
 	cout << "peso: ";
 	setColor(LIGHTBLUE);
 	cout << Us.peso << endl;
 	setColor(GREY);
+
 	//---------------------------------------------------------
 	if (Us.aptMed) {
 		cout << "apta medica: ";
@@ -183,7 +237,7 @@ void printRegistro(entrenamiento En, bool simple) {
 
 	cout << "Fecha Entrenamiento: ";
 	setColor(LIGHTBLUE);
-	cout << En.fechaEntrenamiento.dia << "/" << En.fechaEntrenamiento.dia << "/" << En.fechaEntrenamiento.dia << endl;
+	cout << En.fechaEntrenamiento.dia << "/" << En.fechaEntrenamiento.mes << "/" << En.fechaEntrenamiento.año << endl;
 	setColor(GREY);
 
 	cout << "Actividad: ";

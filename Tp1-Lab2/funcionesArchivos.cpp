@@ -1,6 +1,6 @@
 #include "entradaDatos.h"
 #include "funcionesArchivos.h"
-
+#include "dibujadoPantalla.h"
 
 
 
@@ -67,6 +67,67 @@ bool Archivar(usuarios nuevoUs) {
 }
 
 
+bool realizarBackUp() {
+
+	
+	//proseso de guardado
+	if(confirmacionBKP()){
+		FILE* P = fopen("Usuarios.dat", "rb");
+		FILE* R = fopen("Entrenamientos.dat", "rb");
+		if (!(P || R)) {
+			cout << "Error";
+			return false;
+		}
+
+
+
+		FILE* Q = fopen("Usuarios.bkp", "wb");
+		FILE* S = fopen("Entrenamientos.bkp", "wb");
+
+		if (!(Q || S)) {
+			cout << "Error";
+			return false;
+		}
+		usuarios usBack;
+		entrenamiento enBack;
+
+		//usuarios
+		while (fread(&usBack, sizeof usuarios, 1, P)) {
+			fwrite(&usBack, sizeof usuarios, 1, Q);
+		}
+
+		//entrenamientos
+		while (fread(&enBack, sizeof entrenamiento, 1, R)) {
+			fwrite(&enBack, sizeof entrenamiento, 1, S);
+		}
+
+		fclose(P);
+		fclose(Q);
+		fclose(R);
+		fclose(S);
+
+		setColor(GREEN);
+		cout << "Proceso realizado con exito, pulse cualquier tecla para continuar";
+		setColor(GREY);
+		anykey();
+		return true;
+	}
+	else {
+		setColor(RED);
+		cout << "Error en la confirmacion, pulse cualquier tecla para continuar";
+		setColor(GREY);
+		anykey();
+		return false;
+	}
+	
+}
+
+
+bool cargarBackUp() {
+
+
+	return false;
+}
 
 
 
@@ -102,15 +163,17 @@ usuarios BuscarUsuarioID(int ID) {
 
 
 	FILE* P;
-	P = fopen("Usuarios.dat", "rb+");
+	P = fopen("Usuarios.dat", "ab+");
 	if (P == NULL) { cout << "ERROR"; }
+	else {
+		while (fread(&elegido, sizeof(usuarios), 1, P)) {
+			if (elegido.identificador == ID) {
+				return elegido;
+			}
 
-	while (fread(&elegido,sizeof(usuarios),1,P)) {
-		if (elegido.identificador == ID) {
-			return elegido;
 		}
-
 	}
+	
 	elegido.identificador = -1;
 	return elegido;
 	
