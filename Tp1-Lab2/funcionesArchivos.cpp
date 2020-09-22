@@ -124,7 +124,55 @@ bool realizarBackUp() {
 
 
 bool cargarBackUp() {
+	//proseso de guardado
+	if (confirmacionBKP()) {
+		FILE* P = fopen("Usuarios.dat", "wb");
+		FILE* R = fopen("Entrenamientos.dat", "wb");
+		if (!(P || R)) {
+			cout << "Error";
+			return false;
+		}
 
+
+
+		FILE* Q = fopen("Usuarios.bkp", "rb");
+		FILE* S = fopen("Entrenamientos.bkp", "rb");
+
+		if (!(Q || S)) {
+			cout << "Error";
+			return false;
+		}
+		usuarios usBack;
+		entrenamiento enBack;
+
+		//usuarios
+		while (fread(&usBack, sizeof usuarios, 1, Q)) {
+			fwrite(&usBack, sizeof usuarios, 1, P);
+		}
+
+		//entrenamientos
+		while (fread(&enBack, sizeof entrenamiento, 1, S)) {
+			fwrite(&enBack, sizeof entrenamiento, 1, R);
+		}
+
+		fclose(P);
+		fclose(Q);
+		fclose(R);
+		fclose(S);
+
+		setColor(GREEN);
+		cout << "Proceso realizado con exito, pulse cualquier tecla para continuar";
+		setColor(GREY);
+		anykey();
+		return true;
+	}
+	else {
+		setColor(RED);
+		cout << "Error en la confirmacion, pulse cualquier tecla para continuar";
+		setColor(GREY);
+		anykey();
+		return false;
+	}
 
 	return false;
 }
