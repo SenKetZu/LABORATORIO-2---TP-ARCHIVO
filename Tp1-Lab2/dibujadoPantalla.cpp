@@ -214,13 +214,14 @@ void listarUsTodos() {
 
 	usuarios aux;
 	bool seguro = true;
-	FILE* P;
-	P = fopen("Usuarios.fah", "rb+");
+
+	FILE* P= fopen("Usuarios.dat", "rb+");
+	
 	if (P == NULL) { cout << "NO HAY REGISTROS"; seguro = false; }
 	
+	int cant = cantReg(true);
 
-
-	for (int i = 0; i < cantReg(true);++i) {
+	for (int i = 0; i <cant ;++i) {
 
 		fread(&aux, sizeof(usuarios), 1, P);
 		printRegistro(aux, false);

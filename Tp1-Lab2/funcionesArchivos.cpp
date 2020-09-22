@@ -8,8 +8,8 @@
 bool Archivar(usuarios nuevoUs, int posEscribir) {
 
 	FILE* P;
-	P = fopen("Usuarios.fah", "rb+");
-	if (P == NULL) { cout << "ERROR SOS PERUANO"; return false; }
+	P = fopen("Usuarios.dat", "rb+");
+	if (P == NULL) { cout << "ERROR"; return false; }
 
 	if (posEscribir != 0) {
 		fseek(P, int(sizeof(usuarios)) * posEscribir, 0);
@@ -41,8 +41,8 @@ bool Archivar(usuarios nuevoUs, int posEscribir) {
 bool Archivar(usuarios nuevoUs) {
 
 	FILE* P;
-	P = fopen("Usuarios.fah", "ab");
-	if (P == NULL) { cout << "ERROR SOS PERUANO"; return false; }
+	P = fopen("Usuarios.dat", "ab");
+	if (P == NULL) { cout << "ERROR"; return false; }
 
 
 	//int verf=
@@ -75,13 +75,15 @@ int cantReg(bool esUsuarios) {
 	int tamaño;
 
 	if (esUsuarios) {
-		FILE* P = fopen("Usuarios.fah", "ab");
+		FILE* P = fopen("Usuarios.dat", "ab+");
+		fseek(P, 0, 2);
 		tamaño=ftell(P);
 		tamaño = tamaño / int(sizeof(usuarios));
 		fclose(P);
 	}
 	else {
-		FILE* P = fopen("Entrenamientos.fah", "ab");
+		FILE* P = fopen("Entrenamientos.dat", "ab+");
+		fseek(P, 0, 2);
 		tamaño = ftell(P);
 		tamaño = tamaño / int(sizeof(entrenamiento));
 		fclose(P);
@@ -96,25 +98,22 @@ usuarios BuscarUsuarioID(int ID) {
 
 	usuarios elegido;
 
-	int posicion = ID - 1111;
+	
 
 
 	FILE* P;
-	P = fopen("Usuarios.fah", "rb+");
-	if (P == NULL) { cout << "ERROR SOS PERUANO"; }//mensajeError();
+	P = fopen("Usuarios.dat", "rb+");
+	if (P == NULL) { cout << "ERROR"; }
 
-	for (int i = 0; i <= posicion; ++i) {
-
-		fread(&elegido, sizeof(usuarios), 1, P);
-
-	}
-	
-	if (elegido.identificador != ID) {
-		elegido.identificador = 0;		
+	while (fread(&elegido,sizeof(usuarios),1,P)) {
+		if (elegido.identificador == ID) {
+			return elegido;
+		}
 
 	}
-	fclose(P);
+	elegido.identificador = -1;
 	return elegido;
+	
 }
 
 

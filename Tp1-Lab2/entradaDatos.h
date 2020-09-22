@@ -17,3 +17,4 @@ bool biciesto(int año);
 int pedirID();
 void cleanGetch();
 float numerosBien();
+char teclaPulsada();

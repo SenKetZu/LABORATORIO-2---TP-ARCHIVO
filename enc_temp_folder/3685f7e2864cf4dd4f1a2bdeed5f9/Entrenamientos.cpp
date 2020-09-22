@@ -88,7 +88,7 @@ void agregarEntrenamiento() {
 
 		cout << "Actividad: ";
 		setColor(LIGHTBLUE);
-		nuevo.activ = verifActv(nuevo.IDuser);
+		nuevo.activ = numerosBien();
 		setColor(GREY);
 
 		cout << endl << "Calorias: ";
@@ -140,27 +140,6 @@ int verifIDUser() {
 	return correct;
 }
 
-
-int verifActv(int IDuser){
-
-	int act;
-	bool actCorrecta = false;
-
-	do {
-		act = numerosBien();
-		if (BuscarUsuarioID(IDuser).aptMed){
-
-
-		}
-
-
-
-	} while (actCorrecta);
-
-
-
-	return act;
-}
 int generadorEntrID() {
 
 	entrenamiento ultimo;

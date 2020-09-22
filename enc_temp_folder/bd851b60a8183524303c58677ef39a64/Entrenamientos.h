@@ -14,5 +14,4 @@ void listarEntrenamientoID(int ID);
 void listarEntrUsID(int ID);
 void listarEntr();
 int verifIDUser();
-int verifActv(int IDuser);
 

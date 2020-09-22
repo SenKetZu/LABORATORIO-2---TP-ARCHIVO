@@ -5,71 +5,17 @@
 #include <limits>
 #include <limits.h>
 
+#undef max
 
 
 
-//ingreso de numeros verificando que sean solo numeros, imposible ingresar otra cosa.
 
-/*
-float ingresarNumerosSeguro(int x, int y) {
-	int tecla;
-	float salida=0;
-
-		do {
-			tecla = getch();
-			if (tecla == 8) {
-				if (salida > 9) {
-					salida += int(salida) % 10;
-					salida /= 10;
-				}
-				else {
-					salida = 0;
-				}
-
-
-			}
-			if (tecla >= 48 && tecla <= 57) {
-				salida *= 10;
-				salida += tecla - 48;
-
-			}
-			locate(x, y);
-			cout << salida << "   ";
-
-		} while (tecla!=13&&tecla!=46&&tecla!=44);
-		int aux = 1;
-		float aux2;
-
-		if (tecla == 46 || tecla == 44) {
-			do {
-				aux2 = float(tecla);
-				tecla = getch();
-				if (tecla==8) {
-
-				}
-				if (tecla >= 48 && tecla <= 57) {
-					aux *= 10.f;
-					salida += ((tecla - 48.f)/aux);
-
-				}
-
-				locate(x, y);
-				cout << salida ;
-			} while (tecla != 13);
-		}
-
-	return salida;
-
-}
-*/
 
 //verifica que lo ingresado sean numeros enteros
 float numerosBien() {
 	string str; // Cadena leída
 	float dato;
 	
-	cin.sync();
-	cin.ignore();
 
 	while (getline(cin, str)) {
 		const char* idx = str.c_str();
@@ -151,7 +97,7 @@ fecha fechaValidada(bool nacimiento) {
 
 		int edad =  abs(ingresada.año - (fechaActual().tm_year + 1900));
 		
-		if (edad < 13) {
+		if (edad < 13&&nacimiento) {
 			fechaCorrecta = false;
 		}
 
@@ -206,14 +152,14 @@ bool biciesto(int año) {
 		return false;
 	}
 }
-#undef max
+
 
 //llenado de struct con los datos de un usuario, debe ser mandado a la funcion archivarUsuario() para cargarlo en un archivo.
 void agregarUsusario() {
 	usuarios nuevo;
 	
 
-	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	//cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	
 	setColor(GREY);
 	cout << endl << "ID: ";
@@ -234,7 +180,7 @@ void agregarUsusario() {
 	nuevo.nacimiento = fechaValidada(true);
 			
 
-	cin.clear();
+
 	cout << "ingrese altura en cm:";
 	setColor(LIGHTBLUE);
 	cin >> nuevo.altura;
@@ -247,15 +193,16 @@ void agregarUsusario() {
 
 	cout << endl << "ingrese perfil de actividad:";
 	setColor(LIGHTBLUE);
-	cin >> nuevo.perfilAct;
+	nuevo.perfilAct = teclaPulsada();
 	setColor(GREY);
 
 	cout << endl << "Apta medica:";
 	setColor(LIGHTBLUE);
 	cin >> nuevo.aptMed;
+	cin.ignore();
 	setColor(GREY);
 	
-	cin.clear();
+
 	Archivar(nuevo);
 }
 
@@ -269,26 +216,25 @@ int numeroPulsado() {
 }
 
 char teclaPulsada() {
-	char teclas[6] = { 'A','B','C','a','b','c' };
+	char tecla[1];
+	bool correcta = false;
+	do {
+		
+		cin >> tecla[0];
+		switch (tecla[0]){
 
+			case 'a':case'A':case'b':case'B':case'c':case'C':correcta = !correcta; break;
 
-	while (1) {
-		switch (getch()) {
-
-		case 65: {return teclas[0]; }
-		case 66: {return teclas[1]; }
-		case 67: {return teclas[2]; }
-		case 97: {return teclas[3]; }
-		case 98: {return teclas[4]; }
-		case 99: {return teclas[5]; }
-
-
-		default:break;
+			default: {
+				setColor(RED);
+				cout << "intentelo nuevamente :";
+				setColor(LIGHTBLUE);
+				break;
+			}
 		}
+	} while (!correcta);
 
-	}
-	
-
+	return tecla[0];
 }
 
 //recibe un usuario y modifica los datos, luego lo manda a archivar.
@@ -307,7 +253,7 @@ void modificarUsuario() {
 
 		cout << "apta medica: ";
 		cin >> elegido.aptMed;
-
+		cin.ignore();
 
 		Archivar(elegido, ID - 1111);
 
