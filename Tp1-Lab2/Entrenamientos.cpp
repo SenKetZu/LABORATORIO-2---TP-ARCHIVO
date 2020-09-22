@@ -140,7 +140,6 @@ int verifIDUser() {
 	return correct;
 }
 
-
 int verifActv(int IDuser){
 
 	int act;
@@ -148,19 +147,47 @@ int verifActv(int IDuser){
 
 	do {
 		act = numerosBien();
-		if (BuscarUsuarioID(IDuser).aptMed){
+		
+		switch (act){
+			case 1:
+			case 2:
+			case 3:actCorrecta = true; break;
+			case 4: if (BuscarUsuarioID(IDuser).aptMed) {
+				actCorrecta = true;
+				break;
+			}
+			else {
+				setColor(RED);
+				cout << "Actividad no valida, ingrese otra: ";
+				setColor(LIGHTBLUE);
 
+				break;
+			}
+			case 5:	if (BuscarUsuarioID(IDuser).aptMed) {
+				actCorrecta = true;
+				break;
+			}
+			else {
+				setColor(RED);
+				cout << "Actividad no valida, ingrese otra: ";
+				setColor(LIGHTBLUE);
 
+				break;
+			}
+			default: {
+				setColor(RED);
+				cout << "Actividad no valida, ingrese otra: ";
+				setColor(LIGHTBLUE);
+				break;
+			}
 		}
-
-
-
-	} while (actCorrecta);
+	} while (!actCorrecta);
 
 
 
 	return act;
 }
+
 int generadorEntrID() {
 
 	entrenamiento ultimo;

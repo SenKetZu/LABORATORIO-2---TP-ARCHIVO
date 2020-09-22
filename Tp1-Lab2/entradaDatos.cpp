@@ -100,8 +100,12 @@ fecha fechaValidada(bool nacimiento) {
 		if (edad < 13&&nacimiento) {
 			fechaCorrecta = false;
 		}
-
-		if ( ingresada.año<1800) {
+		//verifica que la fecha ingresada no sea mayor a la actual
+		if (ingresada.año == fechaActual().tm_year + 1900&&(ingresada.mes>fechaActual().tm_mon+1|| ingresada.dia > fechaActual().tm_mday)) {
+			fechaCorrecta = false;
+		}
+		//poco probable que alguien de mas de 120 años se inscriba al programa
+		if ( ingresada.año<1900) {
 			fechaCorrecta = false;
 		}
 		//vector que almacena los dias que tiene cada mes (si el ano es bisiesto, sumaremos +1 al febrero)
@@ -240,19 +244,32 @@ char teclaPulsada() {
 //recibe un usuario y modifica los datos, luego lo manda a archivar.
 void modificarUsuario() {
 	int ID;
+
 	cout <<endl<< "Ingrese el ID: ";
+	setColor(LIGHTBLUE);
 	cin >> ID;
+	cin.ignore();
+	setColor(GREY);
+
 	lineaVerde();
 	usuarios elegido = BuscarUsuarioID(ID);
+
 	if (ID == elegido.identificador&&elegido.estado) {
+
 		cout << "nuevo peso: ";
+		setColor(LIGHTBLUE);
 		cin >> elegido.peso;
+		setColor(GREY);
 
 		cout << "perfil de actividad: ";
+		setColor(LIGHTBLUE);
 		cin >> elegido.perfilAct;
+		setColor(GREY);
 
 		cout << "apta medica: ";
+		setColor(LIGHTBLUE);
 		cin >> elegido.aptMed;
+		setColor(GREY);
 		cin.ignore();
 
 		Archivar(elegido, ID - 1111);
@@ -262,6 +279,7 @@ void modificarUsuario() {
 		setColor(RED);
 		cout << "¡Error usuario no encontrado!";
 		setColor(GREY);
+		msleep(1500);
 	}	
 }
 
