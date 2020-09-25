@@ -16,4 +16,4 @@ void listarEntrUsID(int ID);
 void listarEntr();
 int verifIDUser();
 int verifActv(int IDuser);
-
+void listEntreXPerfUsr();

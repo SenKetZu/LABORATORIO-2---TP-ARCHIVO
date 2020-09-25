@@ -20,3 +20,4 @@ void cleanGetch();
 float numerosBien();
 char teclaPulsada();
 int verifIDnousado();
+void listarXpesoDes();

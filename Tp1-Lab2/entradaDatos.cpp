@@ -436,4 +436,52 @@ void listarEntre2020UsID() {
 }
 
 
+void listarXpesoDes() {
 
+	vector<usuarios> ordenados;
+	usuarios aux;
+	bool seguro = true;
+
+	FILE* P = fopen("Usuarios.dat", "rb+");
+
+	if (P == NULL) { cout << "NO HAY REGISTROS"; anykey(); }
+
+	int cant = cantReg(true);
+
+	for (int i = 0; i < cant; ++i) {
+		fread(&aux, sizeof(usuarios), 1, P);
+		int tamaño = ordenados.size();
+		
+		bool seUbico = false;
+		for (int j = 0; j < tamaño&& !seUbico;++j) {
+			
+			if (ordenados[j].peso <aux.peso ) {
+
+				ordenados.insert(ordenados.begin()+j,aux);
+				seUbico = true;
+
+			}
+			
+
+		}
+		if (!seUbico) {
+			ordenados.push_back(aux);
+		}
+		
+	}
+	cls();
+	setColor(LIGHTBLUE);
+	cout << "\t\t\t******************" << endl;
+	cout << "\t\t\t* LISTA USUARIOS *" << endl;
+	cout << "\t\t\t******************" << endl << endl;
+	setColor(GREY);
+	for (int i = 0; i < cant;++i) {
+		printRegistro(ordenados[i], false);
+	}
+
+
+	cout << endl << "Presione cualquier tecla para continuar...";
+	anykey();
+
+
+}

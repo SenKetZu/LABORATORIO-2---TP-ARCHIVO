@@ -237,6 +237,8 @@ void dibujarMenuEntrenamientos() {
 	cout << "5) LISTAR TODOS LOS ENTRENAMIENTOS " << endl;
 	setColor(GREY);
 	cout << "6) LISTAR ENTRENAMIENTOS MAYORES AL PROMEDIO " << endl;
+	setColor(WHITE);
+	cout << "7) LISTAR ACTIVIDADES POR PERFIL DE ACTIVIDAD " << endl;
 	lineaVerde();
 
 	setColor(WHITE);
@@ -421,6 +423,96 @@ void listarEntrMayorProm() {
 	}
 	fclose(P);
 	cout << "presiones cualquier tecla para volver";
+	anykey();
+
+}
+
+void listEntreXPerfUsr() {
+
+	int matrxEntrenamientos[5][3];
+	//inicializo en 0
+	for (int i = 0; i < 5;++i) {
+		for (int j = 0; j < 3;++j) {
+			matrxEntrenamientos[i][j] = 0;
+		}
+	}
+
+
+	vector<usuarios>us;
+	usuarios user;
+	FILE* P;
+	P = fopen("Usuarios.dat", "ab+");
+	if (P == NULL) { cout << "ERROR"; }
+	else {
+		while (fread(&user, sizeof(usuarios), 1, P)) {
+			
+			us.push_back(user);
+
+		}
+	}
+
+	vector<entrenamiento>en;
+	entrenamiento entr;
+
+	FILE* Q;
+	Q = fopen("Entrenamientos.dat", "ab+");
+	if (Q == NULL) { cout << "ERROR"; }
+	else {
+		while (fread(&entr, sizeof(entrenamiento), 1, Q)) {
+
+			en.push_back(entr);
+
+		}
+	}
+	
+
+	for (int i = 0; i < us.size(); ++i) {
+		for (int j = 0; j < en.size(); ++j) {
+			if (us[i].identificador==en[j].IDuser) {
+				switch (us[i].perfilAct)
+				{
+				case 'a':case 'A': {matrxEntrenamientos[en[j].activ - 1][0]++; break; }
+
+				case 'b':case 'B': {matrxEntrenamientos[en[j].activ - 1][1]++; break; }
+
+				case 'c':case 'C': {matrxEntrenamientos[en[j].activ - 1][2]++; break; }
+
+
+
+				default:
+					break;
+				}
+
+
+			}
+
+
+
+		}
+
+	}
+		
+		
+		
+	
+	cls();
+	setColor(LIGHTBLUE);
+	cout << "\t\t\t******************" << endl;
+	cout << "\t\t\t* entrenamientos *" << endl;
+	cout << "\t\t\t******************" << endl << endl;
+	setColor(GREY);
+	
+	cout<<"  A   B   C"<<endl;
+	for (int i = 0; i < 5; i++) {
+		cout << i + 1;
+		for (int j = 0; j < 3; j++) {
+			cout<<" "<<matrxEntrenamientos[i][j]<< "  ";
+		}
+		cout << endl;
+	}
+
+
+	cout << "presione cualquier tecla";
 	anykey();
 
 }

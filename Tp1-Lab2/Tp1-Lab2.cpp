@@ -78,6 +78,10 @@ void menuEntrenamiento() {
 				listarEntrMayorProm();
 				break;
 			}
+			case 7: {
+				listEntreXPerfUsr();
+				break;
+			}
 			default: {
 
 				setColor(RED);
@@ -132,6 +136,10 @@ void menuUsuario() {
 			}
 			case 6: {
 				listarEntre2020UsID();
+				break;
+			}
+			case 7: {
+				listarXpesoDes();
 				break;
 			}
 			default: {
